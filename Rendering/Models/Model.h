@@ -5,8 +5,7 @@ namespace Rendering{
 
 	namespace Models{
 
-		class Model :virtual public IGameObject
-		{
+		class Model :virtual public IGameObject	{
 
 		public:
 			Model();

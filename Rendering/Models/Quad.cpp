@@ -2,18 +2,15 @@
 using namespace Rendering;
 using namespace Models;
 
-Quad::Quad()
-{
+Quad::Quad(){
 
 }
 
-Quad::~Quad()
-{
+Quad::~Quad(){
 
 }
 
-void Quad::Create()
-{
+void Quad::Create(){
 	GLuint vao;
 	GLuint vbo;
 
@@ -46,14 +43,11 @@ void Quad::Create()
 
 }
 
-void Quad::Update()
-{
+void Quad::Update(){
 
 }
 
-void Quad::Draw()
-{
-
+void Quad::Draw(){
 	glUseProgram(program);
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

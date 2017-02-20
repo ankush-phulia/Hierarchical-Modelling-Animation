@@ -2,13 +2,12 @@
 #include "Shader_Manager.h"
 #include "Models_Manager.h"
 #include "../Core/IListener.h"
-namespace Managers
-{
+
+namespace Managers{
 	class Scene_Manager : public Core::IListener {
 	public:
 		Scene_Manager();
 		~Scene_Manager();
-
 		virtual void NotifyBeginFrame();
 		virtual void NotifyDisplayFrame();
 		virtual void NotifyEndFrame();

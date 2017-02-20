@@ -2,19 +2,15 @@
 using namespace Rendering;
 using namespace Models;
 
-Triangle::Triangle()
-{
+Triangle::Triangle(){
 
 }
 
-Triangle::~Triangle()
-{
+Triangle::~Triangle(){
 
 }
 
-
-void Triangle::Create()
-{
+void Triangle::Create(){
 	GLuint vao;
 	GLuint vbo;
 
@@ -42,14 +38,11 @@ void Triangle::Create()
 
 }
 
-void Triangle::Update()
-{
+void Triangle::Update(){
 
 }
 
-void Triangle::Draw()
-{
-
+void Triangle::Draw(){
 	glUseProgram(program);
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 3);

@@ -1,23 +1,21 @@
 #pragma once
 #include "glm\glm.hpp"
 
-namespace Rendering
-{
-	struct VertexFormat
-	{
+namespace Rendering {
+	struct VertexFormat	{
 
 		glm::vec3 position;
 		glm::vec4 color;
 	
-		VertexFormat(const glm::vec3 &iPos, const glm::vec4 &iColor)
-		{
+		VertexFormat() {
+
+		}
+
+		VertexFormat(const glm::vec3 &iPos, const glm::vec4 &iColor) {
 			position = iPos;
 			color    = iColor;
 		}
-		VertexFormat()
-		{
-
-		}
+		
 
 	};
 }

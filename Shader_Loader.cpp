@@ -1,11 +1,15 @@
-#include "Shader_Loader.h" 
-#include<fstream>
-#include<vector>
+#include "Shader_Loader.h"
+#include <sstream>
 
 using namespace Core;
 
-Shader_Loader::Shader_Loader(void) {}
-Shader_Loader::~Shader_Loader(void) {}
+Shader_Loader::Shader_Loader() {
+
+}
+
+Shader_Loader::~Shader_Loader() {
+
+}
 
 std::string Shader_Loader::ReadShader(char *filename){
 

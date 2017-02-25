@@ -3,8 +3,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 
 namespace Managers{
 

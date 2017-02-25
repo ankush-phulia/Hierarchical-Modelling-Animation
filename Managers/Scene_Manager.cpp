@@ -5,11 +5,11 @@ Scene_Manager::Scene_Manager(){
 
 	glEnable(GL_DEPTH_TEST);
 	shader_manager = new Shader_Manager();
-	shader_manager->CreateProgram("colorShader", "Shaders\\Vertex_Shader.glsl", "Shaders\\Fragment_Shader.glsl");
+	shader_manager->CreateProgram("colorShader", "Shaders/Vertex_Shader.glsl", "Shaders/Fragment_Shader.glsl");
 	models_manager = new Models_Manager();
 }
 
-Scene_Manager::~Scene_Manager(){	
+Scene_Manager::~Scene_Manager(){
 	delete shader_manager;
 	delete models_manager;
 }

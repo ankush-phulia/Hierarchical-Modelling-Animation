@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Core\Init_GLUT.h"
-#include "Managers\Scene_Manager.h"
+#include "Core/Init_GLUT.h"
+#include "Managers/Scene_Manager.h"
 
 using namespace Core;
 using namespace Init;

@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 #include "VertexFormat.h"
 
 namespace Rendering{
@@ -15,7 +15,7 @@ namespace Rendering{
 		virtual void SetProgram(GLuint shaderName) = 0;
 		virtual void Destroy() = 0;
 		virtual GLuint GetVao() const = 0;
-		virtual const std::vector<GLuint> GetVbos() const = 0;				
+		virtual const std::vector<GLuint> GetVbos() const = 0;
 	};
 
 	inline IGameObject::~IGameObject(){

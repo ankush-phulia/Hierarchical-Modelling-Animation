@@ -1,12 +1,12 @@
 #pragma once
-#include "glm\glm.hpp"
+#include "glm/glm.hpp"
 
 namespace Rendering {
 	struct VertexFormat	{
 
 		glm::vec3 position;
 		glm::vec4 color;
-	
+
 		VertexFormat() {
 
 		}
@@ -15,7 +15,7 @@ namespace Rendering {
 			position = iPos;
 			color    = iColor;
 		}
-		
+
 
 	};
 }

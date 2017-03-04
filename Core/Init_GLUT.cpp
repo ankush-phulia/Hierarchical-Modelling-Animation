@@ -9,8 +9,6 @@ Core::WindowInfo Init_GLUT::windowInformation;
 void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::FramebufferInfo& framebufferInfo,int argc, char **argv){
 		glutInit(&argc, argv);
 		windowInformation = windowInfo;
-		//glutInitContextVersion(4, 3);
-		//glutInitContextProfile(GLUT_CORE_PROFILE);
 
 		glutInitDisplayMode(framebufferInfo.flags);
 		glutInitWindowPosition(windowInfo.position_x, windowInfo.position_y);
@@ -24,7 +22,7 @@ void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::Framebuffe
 		glutDisplayFunc(DisplayCallback);
 		glutReshapeFunc(ReshapeCallback);
 
-		//Core::Init::Init_GLEW::Init();
+		Core::Init::Init_GLEW::Init();
 
 		//cleanup
 		glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);

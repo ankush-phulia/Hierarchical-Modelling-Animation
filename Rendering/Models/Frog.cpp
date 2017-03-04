@@ -2,7 +2,7 @@
 using namespace Rendering;
 using namespace Models;
 
-#define TORSO_HEIGHT 5.0
+#define TORSO_HEIGHT 8.0
 #define TORSO_RADIUS 1.3
 
 #define HEAD_HEIGHT 1.7
@@ -14,7 +14,7 @@ using namespace Models;
 #define UPPER_ARM_RADIUS  0.65
 #define LOWER_ARM_RADIUS  0.5
 
-#define LOWER_LEG_HEIGHT 3.0
+#define LOWER_LEG_HEIGHT 4.0
 #define UPPER_LEG_HEIGHT 3.0
 
 #define UPPER_LEG_RADIUS  0.65
@@ -23,14 +23,14 @@ using namespace Models;
 #define SHOULDER_RADIUS 0.85
 #define JOINT_RADIUS 0.85
 
-static GLfloat theta[13] = {90.0,0.0,0.0,65.0,0.0,-130.0,65.0,0.0,-130.0,180.0,0.0,180.0,0.0};
+static GLfloat theta[16] = {105.0,60.0,0.0,0.0,65.0,30.0,-130.0,65.0,-30.0,-130.0,35.0,30.0,135.0,35.0,-30.0,135.0};
 GLUquadricObj *t, *gl, *h, *lua, *lla, *rua, *rla, *lll, *rll, *rul, *lul;
 
 void torso()
 {
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	gluCylinder(t,TORSO_RADIUS, TORSO_RADIUS*1.5, TORSO_HEIGHT,10,10);	//(*obj, base, top, height, slices, stacks)
+	gluCylinder(t,TORSO_RADIUS*1.5, TORSO_RADIUS, TORSO_HEIGHT,10,10);	//(*obj, base, top, height, slices, stacks)
 	glPopMatrix();
 }
 
@@ -95,7 +95,7 @@ void knee_joints()
 void torso_disk()
 {
 	glPushMatrix();
-   	glScalef(1.5*TORSO_RADIUS, 0.1, 1.5*TORSO_RADIUS);
+   	glScalef(TORSO_RADIUS,0.1,TORSO_RADIUS);
    	gluSphere(h,1.0,10,10);
 	glPopMatrix();
 }
@@ -169,12 +169,13 @@ void right_lower_leg()
 void Frog::Draw()
 { 	glTranslatef(-3.5,-3.0,0);
 	glRotatef(theta[0], 0.0, 1.0, 0.0);
+	glRotatef(theta[1], 1.0, 0.0, 0.0);
 	torso();
 
 	glPushMatrix();
 	glTranslatef(0.0, TORSO_HEIGHT+0.5*HEAD_HEIGHT, 0.0);
-	glRotatef(theta[1], 1.0, 0.0, 0.0);
-	glRotatef(theta[2], 0.0, 1.0, 0.0);
+	glRotatef(theta[2], 1.0, 0.0, 0.0);
+	glRotatef(theta[3], 0.0, 1.0, 0.0);
 	glTranslatef(0.0, -0.5*HEAD_HEIGHT, 0.0);
 	head();
 	glass_bot();
@@ -188,32 +189,32 @@ void Frog::Draw()
 
 	//shoulder_joints
 	glPushMatrix();
-	glTranslatef(1.5*TORSO_RADIUS, 0.9*TORSO_HEIGHT, 0.0);
+	glTranslatef(TORSO_RADIUS, 0.9*TORSO_HEIGHT, 0.0);
 	shoulder_joints();
 
-	glTranslatef(-3.0*TORSO_RADIUS, 0.0, 0.0);
+	glTranslatef(-2.0*TORSO_RADIUS, 0.0, 0.0);
 	shoulder_joints();
 	glPopMatrix();
 
 	//leg_joints
 	glPushMatrix();
-	glTranslatef(1.1*TORSO_RADIUS, 0.0, 0.0);
+	glTranslatef(1.5*TORSO_RADIUS, 0.0, 0.0);
 	leg_joints();
 
-	glTranslatef(-2.2*TORSO_RADIUS, 0.0, 0.0);
-	shoulder_joints();
+	glTranslatef(-3.0*TORSO_RADIUS, 0.0, 0.0);
+	leg_joints();
 	glPopMatrix();
 
 	//right arm
 	glPushMatrix();
 	glTranslatef(-(TORSO_RADIUS+UPPER_ARM_RADIUS), 0.9*TORSO_HEIGHT, 0.0);
-	glRotatef(theta[6], 1.0, 0.0, 0.0);
-	glRotatef(theta[7], 0.0, 1.0, 0.0);
+	glRotatef(theta[7], 1.0, 0.0, 0.0);
+	glRotatef(theta[8], 0.0, 1.0, 0.0);
 	right_upper_arm();
 
 	glTranslatef(0.0, 0.0, UPPER_ARM_HEIGHT);
 	elbow_joints();
-	glRotatef(theta[8], 1.0, 0.0, 0.0);
+	glRotatef(theta[9], 1.0, 0.0, 0.0);
 	right_lower_arm();
 
 	glTranslatef(0.0, 0.0, LOWER_ARM_HEIGHT);
@@ -223,13 +224,13 @@ void Frog::Draw()
 	//left arm
 	glPushMatrix();
 	glTranslatef(TORSO_RADIUS+UPPER_ARM_RADIUS, 0.9*TORSO_HEIGHT, 0.0);
-	glRotatef(theta[3], 1.0, 0.0, 0.0);
-	glRotatef(theta[4], 0.0, 1.0, 0.0);
+	glRotatef(theta[4], 1.0, 0.0, 0.0);
+	glRotatef(theta[5], 0.0, 1.0, 0.0);
 	left_upper_arm();
 
 	glTranslatef(0.0, 0.0, UPPER_ARM_HEIGHT);
 	elbow_joints();
-	glRotatef(theta[5], 1.0, 0.0, 0.0);
+	glRotatef(theta[6], 1.0, 0.0, 0.0);
 	glColor3f(1.0,1.0,1.0);
 	left_lower_arm();
 
@@ -239,27 +240,29 @@ void Frog::Draw()
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(TORSO_RADIUS), 0.1*UPPER_LEG_HEIGHT, 0.0);
-	glRotatef(theta[9], 1.0, 0.0, 0.0);
+	glTranslatef(-(TORSO_RADIUS*1.5), 0.1*UPPER_LEG_HEIGHT, 0.0);
+	glRotatef(theta[10], 1.0, 0.0, 0.0);
+	glRotatef(theta[11], 0.0, 1.0, 0.0);
 	left_upper_leg();
 
 	glTranslatef(0.0, UPPER_LEG_HEIGHT, 0.0);
 	knee_joints();
 
-	glRotatef(theta[10], 1.0, 0.0, 0.0);
+	glRotatef(theta[12], 1.0, 0.0, 0.0);
 	left_lower_leg();
 	glPopMatrix();
 
 	glPushMatrix();
 	//glTranslatef(TORSO_RADIUS+UPPER_LEG_RADIUS, 0.1*UPPER_LEG_HEIGHT, 0.0);
-	glTranslatef((TORSO_RADIUS), 0.1*UPPER_LEG_HEIGHT, 0.0);
-	glRotatef(theta[11], 1.0, 0.0, 0.0);
+	glTranslatef((TORSO_RADIUS*1.5), 0.1*UPPER_LEG_HEIGHT, 0.0);
+	glRotatef(theta[13], 1.0, 0.0, 0.0);
+	glRotatef(theta[14], 0.0, 1.0, 0.0);
 	right_upper_leg();
 
 	glTranslatef(0.0, UPPER_LEG_HEIGHT, 0.0);
 	knee_joints();
 
-	glRotatef(theta[12], 1.0, 0.0, 0.0);
+	glRotatef(theta[15], 1.0, 0.0, 0.0);
 	right_lower_leg();
 	glPopMatrix();
 

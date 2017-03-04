@@ -83,8 +83,8 @@ void Scene_Manager::NotifyDisplayFrame(){
 	glPushMatrix();
 	glLoadIdentity();
 	glColor3f(0.0f,1.0f,1.0f);
-	renderBitmapString(30,15,(void *)font,"3D Boxing Simulation");
-	renderBitmapString(30,55,(void *)font,"Arrow keys - Camera, A - Blue Boxer, D - Red Boxer, Esc - Quit");
+	renderBitmapString(30,15,(void *)font,"3D Frog Simulation");
+	renderBitmapString(30,55,(void *)font,"");
 	glPopMatrix();
 	resetPerspectiveProjection();
 

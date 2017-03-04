@@ -24,10 +24,11 @@ namespace Core{
 			if (stencil)
 				flags |= GLUT_STENCIL;
 
+			msaa = msaaa;
 			if (msaa)
 				flags |= GLUT_MULTISAMPLE;
 
-			msaa = msaaa;
+
 		}
 
 		void operator=(const FramebufferInfo& info)	{

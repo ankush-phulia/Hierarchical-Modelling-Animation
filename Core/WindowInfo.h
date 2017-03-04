@@ -13,12 +13,14 @@ namespace Core {
 			name = "OpenGL";
 			width = 800; height = 600;
 			isReshapable = true;
+			position_x = position_y = 100;
 		}
 
 		WindowInfo(int ewidth, int eheight) {
 			name = "Frog Race";
 			width = ewidth;
 			height = eheight;
+			position_x = position_y = 100;
 		}
 
 		WindowInfo(std::string ename, int start_position_x, int start_position_y, int ewidth, int eheight, bool is_reshapable){

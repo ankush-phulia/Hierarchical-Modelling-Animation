@@ -5,10 +5,10 @@ namespace Rendering {
 
 	namespace Models{
 
-		class Quad : public Models::Model{
+		class Frog : public Models::Model{
 		public:
-			Quad();
-			~Quad();
+			Frog();
+			~Frog();
 
 			void Create();
 			virtual void Draw()   override final;

@@ -6,18 +6,16 @@ using namespace Core::Init;
 Core::IListener* Init_GLUT::listener= NULL;
 Core::WindowInfo Init_GLUT::windowInformation;
 
-void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::FramebufferInfo& framebufferInfo){
-		int fakeargc = 1;
-		char *fakeargv[] = { "fake", NULL };
-		glutInit(&fakeargc, fakeargv);
+void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::FramebufferInfo& framebufferInfo,int argc, char **argv){
+		glutInit(&argc, argv);
 		windowInformation = windowInfo;
-		glutInitContextVersion(4, 3);
-		glutInitContextProfile(GLUT_CORE_PROFILE);
+		//glutInitContextVersion(4, 3);
+		//glutInitContextProfile(GLUT_CORE_PROFILE);
 
 		glutInitDisplayMode(framebufferInfo.flags);
 		glutInitWindowPosition(windowInfo.position_x, windowInfo.position_y);
 		glutInitWindowSize(windowInfo.width, windowInfo.height);
-	
+
 		glutCreateWindow(windowInfo.name.c_str());
 		std::cout << "GLUT:initialized" << std::endl;
 
@@ -25,13 +23,12 @@ void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::Framebuffe
 		glutCloseFunc(CloseCallback);
 		glutDisplayFunc(DisplayCallback);
 		glutReshapeFunc(ReshapeCallback);
-				
-		Core::Init::Init_GLEW::Init();
-		
+
+		//Core::Init::Init_GLEW::Init();
+
 		//cleanup
 		glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-			
-		PrintOpenGLInfo(windowInfo);		
+		PrintOpenGLInfo(windowInfo);
 }
 
 void Init_GLUT::Run(){
@@ -49,7 +46,7 @@ void Init_GLUT::IdleCallback(void){
 	glutPostRedisplay();
 }
 
-void Init_GLUT::DisplayCallback(){	
+void Init_GLUT::DisplayCallback(){
 	if (listener){
 		listener->NotifyBeginFrame();
 		listener->NotifyDisplayFrame();

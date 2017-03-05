@@ -1,3 +1,4 @@
+//CHECK
 #include "Shader_Manager.h"
 
 using namespace Managers;
@@ -54,11 +55,9 @@ GLuint Shader_Manager::CreateShader(GLenum shaderType, const std::string& source
 		std::cout << "ERROR compiling shader: " << shaderName.c_str() << std::endl << &shader_log[0] << std::endl;
 	}
 	return shader;
-
 }
 
 void Shader_Manager::CreateProgram(const std::string& shaderName, const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename){
-
 	//read the shader files and save the code
 	std::string vertex_shader_code = ReadShader(vertexShaderFilename);
 	std::string fragment_shader_code = ReadShader(fragmentShaderFilename);
@@ -80,12 +79,14 @@ void Shader_Manager::CreateProgram(const std::string& shaderName, const std::str
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
 		std::vector<char> program_log(info_log_length);
 		glGetProgramInfoLog(program, info_log_length, NULL, &program_log[0]);
-		std::cout << "Shader Loader : LINK ERROR" << std::endl << &program_log[0] << std::endl;
 		return;
 	}
 	programs[shaderName] = program;
 }
 
 const GLuint Shader_Manager::GetShader(const std::string& shaderName){
-	return programs.at(shaderName);
+	if (programs[shaderName]) {
+		return programs.at(shaderName);
+	}
+	return 0;
 }

@@ -4,7 +4,6 @@ namespace Core{
 	class IListener	{
 		public:
 			virtual ~IListener() = 0;
-
 			//drawing functions
 			virtual void NotifyBeginFrame() = 0;
 			virtual void NotifyDisplayFrame() = 0;

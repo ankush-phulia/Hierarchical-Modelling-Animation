@@ -3,7 +3,7 @@
 
 using namespace Core::Init;
 
-Core::IListener* Init_GLUT::listener= NULL;
+Core::IListener* Init_GLUT::listener = NULL;
 Core::WindowInfo Init_GLUT::windowInformation;
 
 void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::FramebufferInfo& framebufferInfo){
@@ -30,18 +30,14 @@ void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::Framebuffe
 		
 		//cleanup
 		glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-			
-		PrintOpenGLInfo(windowInfo);		
-}
+	}
 
 void Init_GLUT::Run(){
-	std::cout << "GLUT:\t Start Running  " << std::endl;
 	glutMainLoop();
 }
 
 
 void Init_GLUT::Close(){
-	std::cout << "GLUT:\t Finished" << std::endl;
 	glutLeaveMainLoop();
 }
 
@@ -80,26 +76,28 @@ void Init_GLUT::ExitFullscreen(){
 	glutLeaveFullScreen();
 }
 
-void Init_GLUT::PrintOpenGLInfo(const Core::WindowInfo& windowInfo){
+//void Init_GLUT::PrintOpenGLInfo(const Core::WindowInfo& windowInfo){
+//
+//	const unsigned char* renderer = glGetString(GL_RENDERER);
+//	const unsigned char* vendor   = glGetString(GL_VENDOR);
+//	const unsigned char* version  = glGetString(GL_VERSION);
+//
+//	std::cout << "*******************************************************************************" << std::endl;
+//
+//	std::cout << "GLUT:\tVendor : " << vendor << std::endl;
+//	std::cout << "GLUT:\tRenderer : " << renderer << std::endl;
+//	std::cout << "GLUT:\tOpenGl version: " << version << std::endl;
+//	std::cout << "GLUT:\tInitial window is '" << windowInfo.name << "', with dimensions (" << windowInfo.width
+//			  << "X" << windowInfo.height;
+//	std::cout << ") starts at (" << windowInfo.position_x << "X" << windowInfo.position_y;
+//	std::cout << ") and " << ((windowInfo.isReshapable) ? "is" : "is not ") << " redimensionable" << std::endl;
+//	std::cout << "GLUT:\tInitial Framebuffer contains double buffers for" << std::endl;
+//
+//	std::cout << "*****************************************************************" << std::endl;
+//}
 
-	const unsigned char* renderer = glGetString(GL_RENDERER);
-	const unsigned char* vendor   = glGetString(GL_VENDOR);
-	const unsigned char* version  = glGetString(GL_VERSION);
-
-	std::cout << "*******************************************************************************" << std::endl;
-
-	std::cout << "GLUT:\tVendor : " << vendor << std::endl;
-	std::cout << "GLUT:\tRenderer : " << renderer << std::endl;
-	std::cout << "GLUT:\tOpenGl version: " << version << std::endl;
-	std::cout << "GLUT:\tInitial window is '" << windowInfo.name << "', with dimensions (" << windowInfo.width
-			  << "X" << windowInfo.height;
-	std::cout << ") starts at (" << windowInfo.position_x << "X" << windowInfo.position_y;
-	std::cout << ") and " << ((windowInfo.isReshapable) ? "is" : "is not ") << " redimensionable" << std::endl;
-	std::cout << "GLUT:\tInitial Framebuffer contains double buffers for" << std::endl;
-
-	std::cout << "*****************************************************************" << std::endl;
-}
-
-void Init_GLUT::SetListener(Core::IListener*& iListener){
+void Init_GLUT::SetListener(Core::IListener* const& iListener){
 	listener = iListener;
 }
+
+

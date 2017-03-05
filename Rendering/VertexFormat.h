@@ -6,6 +6,7 @@ namespace Rendering {
 
 		glm::vec3 position;
 		glm::vec4 color;
+		glm::vec2 texture;
 	
 		VertexFormat() {
 
@@ -13,7 +14,16 @@ namespace Rendering {
 
 		VertexFormat(const glm::vec3 &iPos, const glm::vec4 &iColor) {
 			position = iPos;
-			color    = iColor;
+			color = iColor;
+			texture.x = 0;
+			texture.y = 0;
+		}
+
+		VertexFormat(const glm::vec3 &iPos, const glm::vec2 &iTexture)
+		{
+			position = iPos;
+			texture = iTexture;
+			color.r = color.g = color.b = color.a = 0;
 		}
 		
 

@@ -11,11 +11,15 @@ Model::~Model(){
 }
 
 void Model::Draw(){
-	//this is abstract, we don't continue to override this method
+
+}
+
+void Model::Draw(const glm::mat4& projection_matrix, const glm::mat4& view_matrix){
+
 }
 
 void Model::Update(){
-	//this is abstract, we don't continue to override this method
+	//this is abstract
 }
 
 void Model::SetProgram(GLuint program){
@@ -30,8 +34,25 @@ const std::vector<GLuint> Model::GetVbos() const{
 	return vbos;
 }
 
+const GLuint Model::GetTexture(std::string textureName) const{
+	return textures.at(textureName);
+}
+
+
+void Model::SetTexture(std::string textureName, GLuint texture){
+	if (texture == 0) return;
+	textures[textureName] = texture;
+}
+
 void Model::Destroy(){
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(vbos.size(), &vbos[0]);
 	vbos.clear();
+
+	if (textures.size() > 0){
+		for (auto t : textures)	{
+			glDeleteTextures(1, &t.second);
+		}
+		textures.clear();
+	}
 }

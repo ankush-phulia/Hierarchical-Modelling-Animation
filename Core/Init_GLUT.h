@@ -16,8 +16,8 @@ namespace Core {
 			static void Close();
 			void EnterFullscreen();
 			void ExitFullscreen();
-			static void PrintOpenGLInfo(const Core::WindowInfo& windowInfo);
-			static void SetListener(Core::IListener*& iListener);
+			//static void PrintOpenGLInfo(const Core::WindowInfo& windowInfo);
+			static void SetListener(Core::IListener* const& iListener);
 
 		private:
 			static void IdleCallback(void);

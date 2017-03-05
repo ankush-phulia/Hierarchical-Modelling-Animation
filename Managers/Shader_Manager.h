@@ -17,8 +17,8 @@ namespace Managers{
 		static const GLuint GetShader(const std::string&);
 
 	private:
+		static std::map<std::string, GLuint> programs;
 		std::string ReadShader(const std::string& filename);
 		GLuint CreateShader(GLenum shaderType, const std::string& source, const std::string& shaderName);
-		static std::map<std::string, GLuint> programs;
 	};
 }

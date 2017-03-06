@@ -20,25 +20,26 @@ using namespace Models;
 #define LOWER_LEG_HEIGHT 4.0
 #define UPPER_LEG_HEIGHT 3.0
 
-#define UPPER_LEG_RADIUS  0.65
-#define LOWER_LEG_RADIUS  0.5
+#define UPPER_LEG_RADIUS  0.80
+#define LOWER_LEG_RADIUS  0.65
 
 #define SHOULDER_RADIUS 0.85
 #define JOINT_RADIUS 0.85
 
 #define STILL 0
 #define JUMPING 1
+#define LANDING 2
 
-#define VEL 3.1      // Velocity = sqrt(2) x vel
+#define VEL 15      // Velocity = sqrt(2) x vel
+#define DT 10000
 #define PI 3.14159265
 
 
 static GLfloat theta[10] = {0.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0};
-//{90.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0}; start-end
-//{0.0,30.0,-30.0,0.0,60.0,30.0,-20.0,160.0,0.0,10.0}; mid-air
+static GLfloat in[10] = {90.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0}; //start-end
+static GLfloat out[10] = {0.0,30.0,-30.0,0.0,60.0,30.0,-20.0,160.0,0.0,10.0};// mid-air
 //{0.0 in z direction 90.0 in x direction}
 GLUquadricObj *t, *gl, *h, *ua, *la, *ll, *ul;
-
 
 
 void torso()
@@ -264,7 +265,7 @@ void Frog::Draw()
 	knee_joints();
 
 	glRotatef(theta[9], 1.0, 0.0, 0.0);
-	glRotatef(theta[8], 0.0, 0.0, 1.0);
+	//glRotatef(theta[8], 0.0, 0.0, 1.0);
 	left_lower_leg();
 	glTranslatef(0.0, LOWER_LEG_HEIGHT,0.0);
 	palms();
@@ -281,7 +282,7 @@ void Frog::Draw()
 	knee_joints();
 
 	glRotatef(theta[9], 1.0, 0.0, 0.0);
-	glRotatef(-theta[8], 0.0, 0.0, 1.0);
+	//glRotatef(-theta[8], 0.0, 0.0, 1.0);
 	right_lower_leg();
 	glTranslatef(0.0,LOWER_LEG_HEIGHT,0.0);
 	palms();
@@ -306,6 +307,8 @@ void Frog::Create(glm::vec3 p){
 	glEnable ( GL_TEXTURE_2D );
                                       // Create Storage Space For The Texture
      Position = p;
+	 Direction = glm::vec3(0.0,0.0,0.0);
+	 mode = STILL;
 	/*texture = SOIL_load_OGL_texture
 	(
 		"frog_skin.jpg",
@@ -366,8 +369,75 @@ void Frog::Create(glm::vec3 p){
 
 }
 
-void Frog::Update(glm::vec3 ins){
+bool Equals(glm::vec3 &ins,glm::vec3 &Position)
+{
+	if(abs(Position.x*1000) == abs(ins.x*1000) &&
+		abs(Position.z*1000) == abs(ins.z*1000))
+		return true;
+	return false;
+}
 
+
+
+void Frog::Update(glm::vec3 ins){
+	if(mode == JUMPING)
+	{	if(Equals(ins,Position))
+		{	mode = STILL;
+			Position.y = 0.0;
+			return;
+		}
+		tim += velocity/(5*DT);
+		float dist = velocity*tim;
+		float ht = velocity*tim - 5*tim*tim;
+		Position.x = nPosition.x + dist*Direction.x;
+		Position.y = nPosition.y + ht;
+		Position.z = nPosition.z + dist*Direction.z;
+		std::cout << Position.z << "  " << Position.y << " 12\n";
+		for(int i=1; i<10; i++)
+		{
+			theta[i] += (out[i]-in[i])*2/DT;
+		}
+		theta[0] += ang*2/DT;
+		if(abs((Position.y-(velocity*velocity)/20)*100)==0)
+		{	mode = LANDING;
+			ang = 0;
+		}
+	}
+	else if(mode == LANDING)
+	{	if(Equals(ins,Position))
+		{	mode = STILL;
+			Position.y = 0.0;
+			return;
+		}
+		tim += velocity/(5*DT);
+		float dist = velocity*tim;
+		float ht = velocity*tim - 5*tim*tim;
+		Position.x = nPosition.x + dist*Direction.x;
+		Position.y = nPosition.y + ht;
+		Position.z = nPosition.z + dist*Direction.z;
+		std::cout << Position.z << "  " << Position.y << " 12\n";
+		for(int i=1; i<10; i++)
+		{
+			theta[i] += (in[i]-out[i])*2/DT;
+		}
+		if(Position.y<=0.0)
+		{	Position.y = 0.0;
+			mode = STILL;
+		}	
+	}
+	else if(!Equals(ins,Position))
+	{	mode = JUMPING;
+		Direction = ins - Position;
+		float d = glm::length(Direction); 
+		Direction = glm::normalize(Direction);
+		if(5*d > VEL*VEL)
+			velocity = VEL;
+		else
+			velocity = sqrt(5*d);
+		nPosition = Position;
+		tim = 0.0;
+		ang = acos(Direction.z)*180/PI - theta[0];
+	}
 }
 
 

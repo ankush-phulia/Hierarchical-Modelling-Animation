@@ -47,7 +47,7 @@ Scene_Manager::Scene_Manager(){
 
 	glEnable(GL_DEPTH_TEST);
 	models_manager = new Models_Manager();
-	insect = glm::vec3(0.0,0.0,-50.0f);
+	insect = glm::vec3(0.0,0.0,-100.0f);
 
 
 }
@@ -62,7 +62,7 @@ void Scene_Manager::NotifyBeginFrame(){
 
 void Scene_Manager::NotifyDisplayFrame(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 

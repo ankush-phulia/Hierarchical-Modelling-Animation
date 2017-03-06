@@ -1,8 +1,6 @@
 #pragma once
-#include <unordered_map>
-#include "Shader_Manager.h"
+#include <map>
 #include "../Rendering/IGameObject.h"
-#include "../Rendering/Models/Triangle.h"
 #include "../Rendering/Models/Frog.h"
 
 using namespace Rendering;

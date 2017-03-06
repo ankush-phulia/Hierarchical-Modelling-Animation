@@ -9,7 +9,7 @@ namespace Rendering {
 		public:
 			Frog();
 			~Frog();
-
+			GLuint texture;
 			void Create();
 			virtual void Draw()   override final;
 			virtual void Update() override final;

@@ -76,7 +76,6 @@ void Scene_Manager::NotifyDisplayFrame(){
 		0.0f,0.0f,0.0f,
 		0.0f,1.0f,0.0f);
 	glPushMatrix();
-	glColor3f(0.0f,1.0f,1.0f);
 	models_manager->Draw();
 	glPopMatrix();
 	setOrthographicProjection();

@@ -1,4 +1,7 @@
 #include "Frog.h"
+#include <SOIL/SOIL.h>
+//#include <glaux.h>
+
 using namespace Rendering;
 using namespace Models;
 
@@ -23,8 +26,10 @@ using namespace Models;
 #define SHOULDER_RADIUS 0.85
 #define JOINT_RADIUS 0.85
 
-static GLfloat theta[16] = {105.0,60.0,0.0,0.0,65.0,30.0,-130.0,65.0,-30.0,-130.0,35.0,30.0,135.0,35.0,-30.0,135.0};
-GLUquadricObj *t, *gl, *h, *lua, *lla, *rua, *rla, *lll, *rll, *rul, *lul;
+static GLfloat theta[10] = {90.0,75.0,0.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0};
+GLUquadricObj *t, *gl, *h, *ua, *la, *ll, *ul;
+
+
 
 void torso()
 {
@@ -103,71 +108,70 @@ void torso_disk()
 void left_upper_arm()
 {
 	glPushMatrix();
-	gluCylinder(lua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
+	gluCylinder(ua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void left_lower_arm()
 {
 	glPushMatrix();
-	gluCylinder(lla,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
+	gluCylinder(la,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void right_upper_arm()
 {
 	glPushMatrix();
-	gluCylinder(rua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
+	gluCylinder(ua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void right_lower_arm()
 {
 	glPushMatrix();
-	gluCylinder(rla,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
+	gluCylinder(la,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void left_upper_leg()
 {
-	glColor3f(1.0,0.0,1.0);
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	gluCylinder(lul,UPPER_LEG_RADIUS*1.2, UPPER_LEG_RADIUS, UPPER_LEG_HEIGHT,10,10);
+	gluCylinder(ul,UPPER_LEG_RADIUS*1.2, UPPER_LEG_RADIUS, UPPER_LEG_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void left_lower_leg()
 {
-	glColor3f(1.0,0.0,0.0);
 	glPushMatrix();
 	glTranslatef(0.0,-0.25,0.0);
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	gluCylinder(lll,LOWER_LEG_RADIUS, LOWER_LEG_RADIUS*1.5, LOWER_LEG_HEIGHT,10,10);
+	gluCylinder(ll,UPPER_LEG_RADIUS, LOWER_LEG_RADIUS, LOWER_LEG_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void right_upper_leg()
 {
-	glColor3f(1.0f,0.0f,1.0f);
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	gluCylinder(rul,UPPER_LEG_RADIUS*1.2, UPPER_LEG_RADIUS, UPPER_LEG_HEIGHT,10,10);
+	gluCylinder(ul,UPPER_LEG_RADIUS*1.2, UPPER_LEG_RADIUS, UPPER_LEG_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void right_lower_leg()
 {
-	glColor3f(1.0,0.0,0.0);
 	glPushMatrix();
 	glTranslatef(0.0,-0.25,0.0);
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	gluCylinder(rll,LOWER_LEG_RADIUS, LOWER_LEG_RADIUS*1.5, LOWER_LEG_HEIGHT,10,10);
+	gluCylinder(ll,UPPER_LEG_RADIUS, LOWER_LEG_RADIUS, LOWER_LEG_HEIGHT,10,10);
 	glPopMatrix();
 }
 
 void Frog::Draw()
-{ 	glTranslatef(-3.5,-3.0,0);
+{ 	glEnable ( GL_TEXTURE_2D );
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTranslatef(-3.5,-3.0,0);
 	glRotatef(theta[0], 0.0, 1.0, 0.0);
 	glRotatef(theta[1], 1.0, 0.0, 0.0);
 	torso();
@@ -208,13 +212,13 @@ void Frog::Draw()
 	//right arm
 	glPushMatrix();
 	glTranslatef(-(TORSO_RADIUS+UPPER_ARM_RADIUS), 0.9*TORSO_HEIGHT, 0.0);
-	glRotatef(theta[7], 1.0, 0.0, 0.0);
-	glRotatef(theta[8], 0.0, 1.0, 0.0);
+	glRotatef(theta[4], 1.0, 0.0, 0.0);
+	glRotatef(-theta[5], 0.0, 1.0, 0.0);
 	right_upper_arm();
 
 	glTranslatef(0.0, 0.0, UPPER_ARM_HEIGHT);
 	elbow_joints();
-	glRotatef(theta[9], 1.0, 0.0, 0.0);
+	glRotatef(theta[6], 1.0, 0.0, 0.0);
 	right_lower_arm();
 
 	glTranslatef(0.0, 0.0, LOWER_ARM_HEIGHT);
@@ -231,7 +235,6 @@ void Frog::Draw()
 	glTranslatef(0.0, 0.0, UPPER_ARM_HEIGHT);
 	elbow_joints();
 	glRotatef(theta[6], 1.0, 0.0, 0.0);
-	glColor3f(1.0,1.0,1.0);
 	left_lower_arm();
 
 	glTranslatef(0.0, 0.0,LOWER_ARM_HEIGHT);
@@ -241,34 +244,40 @@ void Frog::Draw()
 
 	glPushMatrix();
 	glTranslatef(-(TORSO_RADIUS*1.5), 0.1*UPPER_LEG_HEIGHT, 0.0);
-	glRotatef(theta[10], 1.0, 0.0, 0.0);
-	glRotatef(theta[11], 0.0, 1.0, 0.0);
+	glRotatef(theta[7], 1.0, 0.0, 0.0);
+	glRotatef(theta[8], 0.0, 0.0, 1.0);
 	left_upper_leg();
 
 	glTranslatef(0.0, UPPER_LEG_HEIGHT, 0.0);
 	knee_joints();
 
-	glRotatef(theta[12], 1.0, 0.0, 0.0);
+	glRotatef(theta[9], 1.0, 0.0, 0.0);
+	glRotatef(2*theta[8], 0.0, 0.0, 1.0);
 	left_lower_leg();
+	glTranslatef(0.0, LOWER_LEG_HEIGHT,0.0);
+	palms();
 	glPopMatrix();
 
 	glPushMatrix();
 	//glTranslatef(TORSO_RADIUS+UPPER_LEG_RADIUS, 0.1*UPPER_LEG_HEIGHT, 0.0);
 	glTranslatef((TORSO_RADIUS*1.5), 0.1*UPPER_LEG_HEIGHT, 0.0);
-	glRotatef(theta[13], 1.0, 0.0, 0.0);
-	glRotatef(theta[14], 0.0, 1.0, 0.0);
+	glRotatef(theta[7], 1.0, 0.0, 0.0);
+	glRotatef(-theta[8], 0.0, 0.0, 1.0);
 	right_upper_leg();
 
 	glTranslatef(0.0, UPPER_LEG_HEIGHT, 0.0);
 	knee_joints();
 
-	glRotatef(theta[15], 1.0, 0.0, 0.0);
+	glRotatef(theta[9], 1.0, 0.0, 0.0);
+	glRotatef(-2*theta[8], 0.0, 0.0, 1.0);
 	right_lower_leg();
+	glTranslatef(0.0,LOWER_LEG_HEIGHT,0.0);
+	palms();
 	glPopMatrix();
 
 	//glFlush();
 	//glutSwapBuffers();
-   //glDisable(GL_TEXTURE_2D);
+   glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -282,87 +291,71 @@ Frog::~Frog(){
 
 void Frog::Create(){
 
+	glEnable ( GL_TEXTURE_2D );
+                                      // Create Storage Space For The Texture
+     
+	/*texture = SOIL_load_OGL_texture
+	(
+		"frog_skin.jpg",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
+	*/
+	int width, height, channels;
+	unsigned char *ht_map = SOIL_load_image("frog_skin.jpg",&width, &height, &channels,SOIL_LOAD_RGB); 
+	if(ht_map == NULL) 
+		std::cout << "NULL "<<SOIL_last_result()<<" \n";
+  
+	glGenTextures(1, &texture);                                 // Create The Texture
+ 
+        // Typical Texture Generation Using Data From The Bitmap
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width,height, 0, GL_RGB, GL_UNSIGNED_BYTE, ht_map);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+	SOIL_free_image_data( ht_map );
+
 	h=gluNewQuadric();
 	gluQuadricDrawStyle(h, GLU_FILL);
 	gluQuadricNormals(h, GLU_SMOOTH);
+	gluQuadricTexture(h, GL_TRUE);
 
 	t=gluNewQuadric();
 	gluQuadricDrawStyle(t, GLU_FILL);
 	gluQuadricNormals(t, GLU_SMOOTH);
+	gluQuadricTexture(t, GL_TRUE);
 
 	gl=gluNewQuadric();
 	gluQuadricDrawStyle(gl, GLU_FILL);
 	gluQuadricNormals(gl, GLU_SMOOTH);
+	gluQuadricTexture(gl, GL_TRUE);
 
-	lua=gluNewQuadric();
-	gluQuadricDrawStyle(lua, GLU_FILL);
-	gluQuadricNormals(lua, GLU_SMOOTH);
+	ua=gluNewQuadric();
+	gluQuadricDrawStyle(ua, GLU_FILL);
+	gluQuadricNormals(ua, GLU_SMOOTH);
+	gluQuadricTexture(ua, GL_TRUE);
 
-	lla=gluNewQuadric();
-	gluQuadricDrawStyle(lla, GLU_FILL);
-	gluQuadricNormals(lla, GLU_SMOOTH);
+	la=gluNewQuadric();
+	gluQuadricDrawStyle(la, GLU_FILL);
+	gluQuadricNormals(la, GLU_SMOOTH);
+	gluQuadricTexture(la, GL_TRUE);
 
-	rua=gluNewQuadric();
-	gluQuadricDrawStyle(rua, GLU_FILL);
-	gluQuadricNormals(rua, GLU_SMOOTH);
+	ul=gluNewQuadric();
+	gluQuadricDrawStyle(ul, GLU_FILL);
+	gluQuadricNormals(ul, GLU_SMOOTH);
+	gluQuadricTexture(ul, GL_TRUE);
 
-	rla=gluNewQuadric();
-	gluQuadricDrawStyle(rla, GLU_FILL);
-	gluQuadricNormals(rla, GLU_SMOOTH);
+	ll=gluNewQuadric();
+	gluQuadricDrawStyle(ll, GLU_FILL);
+	gluQuadricNormals(ll, GLU_SMOOTH);
+	gluQuadricTexture(ll, GL_TRUE);
 
-	lul=gluNewQuadric();
-	gluQuadricDrawStyle(lul, GLU_FILL);
-	gluQuadricNormals(lul, GLU_SMOOTH);
-
-	lll=gluNewQuadric();
-	gluQuadricDrawStyle(lll, GLU_FILL);
-	gluQuadricNormals(lll, GLU_SMOOTH);
-
-	rul=gluNewQuadric();
-	gluQuadricDrawStyle(rul, GLU_FILL);
-	gluQuadricNormals(rul, GLU_SMOOTH);
-
-	rll=gluNewQuadric();
-	gluQuadricDrawStyle(rll, GLU_FILL);
-	/*GLuint vao;
-	GLuint vbo;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	std::vector<VertexFormat> vertices;
-
-	vertices.push_back(VertexFormat(glm::vec3(-0.25, 0.5, 0.0),
-		glm::vec4(1, 0, 0, 1)));
-	vertices.push_back(VertexFormat(glm::vec3(-0.25, 0.75, 0.0),
-		glm::vec4(0, 0, 0, 1)));
-	vertices.push_back(VertexFormat(glm::vec3(0.25, 0.5, 0.0),
-		glm::vec4(0, 1, 0, 1)));
-
-	vertices.push_back(VertexFormat(glm::vec3(0.25, 0.75, 0.0),
-		glm::vec4(0, 0, 1, 1)));
-
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * 4, &vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), (void*)(offsetof(VertexFormat, VertexFormat::color)));
-	glBindVertexArray(0);
-	this->vao = vao;
-	this->vbos.push_back(vbo);
-  */
 }
 
 void Frog::Update(){
 
 }
 
-/*void Draw(){
-	glUseProgram(program);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-}
-*/
+

@@ -12,7 +12,7 @@ Models_Manager::Models_Manager(){
 
 	Models::Frog* frog = new Models::Frog();
 	//frog->SetProgram(Shader_Manager::GetShader("colorShader"));
-	frog->Create();
+	frog->Create(glm::vec3(0.0f,0.0f,0.0f));
 	gameModelList["frog"] = frog;
 }
 
@@ -33,10 +33,10 @@ const IGameObject& Models_Manager::GetModel(const std::string& gameModelName) co
 	return (*gameModelList.at(gameModelName));
 }
 
-void Models_Manager::Update(){
+void Models_Manager::Update(glm::vec3 ins){
 	for (auto model: gameModelList)
 	{
-		model.second->Update();
+		model.second->Update(ins);
 	}
 }
 

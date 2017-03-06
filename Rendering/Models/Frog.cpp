@@ -26,7 +26,17 @@ using namespace Models;
 #define SHOULDER_RADIUS 0.85
 #define JOINT_RADIUS 0.85
 
-static GLfloat theta[10] = {90.0,75.0,0.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0};
+#define STILL 0
+#define JUMPING 1
+
+#define VEL 3.1      // Velocity = sqrt(2) x vel
+#define PI 3.14159265
+
+
+static GLfloat theta[10] = {0.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0};
+//{90.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0}; start-end
+//{0.0,30.0,-30.0,0.0,60.0,30.0,-20.0,160.0,0.0,10.0}; mid-air
+//{0.0 in z direction 90.0 in x direction}
 GLUquadricObj *t, *gl, *h, *ua, *la, *ll, *ul;
 
 
@@ -171,7 +181,9 @@ void Frog::Draw()
 { 	glEnable ( GL_TEXTURE_2D );
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTranslatef(-3.5,-3.0,0);
+	glTranslatef(Position.x,Position.y,Position.z);
+
+	glTranslatef(0,-3.0,0);
 	glRotatef(theta[0], 0.0, 1.0, 0.0);
 	glRotatef(theta[1], 1.0, 0.0, 0.0);
 	torso();
@@ -211,7 +223,7 @@ void Frog::Draw()
 
 	//right arm
 	glPushMatrix();
-	glTranslatef(-(TORSO_RADIUS+UPPER_ARM_RADIUS), 0.9*TORSO_HEIGHT, 0.0);
+	glTranslatef(-(TORSO_RADIUS), 0.9*TORSO_HEIGHT, 0.0);
 	glRotatef(theta[4], 1.0, 0.0, 0.0);
 	glRotatef(-theta[5], 0.0, 1.0, 0.0);
 	right_upper_arm();
@@ -227,7 +239,7 @@ void Frog::Draw()
 
 	//left arm
 	glPushMatrix();
-	glTranslatef(TORSO_RADIUS+UPPER_ARM_RADIUS, 0.9*TORSO_HEIGHT, 0.0);
+	glTranslatef(TORSO_RADIUS, 0.9*TORSO_HEIGHT, 0.0);
 	glRotatef(theta[4], 1.0, 0.0, 0.0);
 	glRotatef(theta[5], 0.0, 1.0, 0.0);
 	left_upper_arm();
@@ -252,7 +264,7 @@ void Frog::Draw()
 	knee_joints();
 
 	glRotatef(theta[9], 1.0, 0.0, 0.0);
-	glRotatef(2*theta[8], 0.0, 0.0, 1.0);
+	glRotatef(theta[8], 0.0, 0.0, 1.0);
 	left_lower_leg();
 	glTranslatef(0.0, LOWER_LEG_HEIGHT,0.0);
 	palms();
@@ -269,7 +281,7 @@ void Frog::Draw()
 	knee_joints();
 
 	glRotatef(theta[9], 1.0, 0.0, 0.0);
-	glRotatef(-2*theta[8], 0.0, 0.0, 1.0);
+	glRotatef(-theta[8], 0.0, 0.0, 1.0);
 	right_lower_leg();
 	glTranslatef(0.0,LOWER_LEG_HEIGHT,0.0);
 	palms();
@@ -289,11 +301,11 @@ Frog::~Frog(){
 
 }
 
-void Frog::Create(){
+void Frog::Create(glm::vec3 p){
 
 	glEnable ( GL_TEXTURE_2D );
                                       // Create Storage Space For The Texture
-     
+     Position = p;
 	/*texture = SOIL_load_OGL_texture
 	(
 		"frog_skin.jpg",
@@ -354,7 +366,7 @@ void Frog::Create(){
 
 }
 
-void Frog::Update(){
+void Frog::Update(glm::vec3 ins){
 
 }
 

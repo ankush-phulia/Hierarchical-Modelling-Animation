@@ -10,9 +10,10 @@ namespace Rendering {
 			Frog();
 			~Frog();
 			GLuint texture;
-			void Create();
+			glm::vec3 Position;
+			void Create(glm::vec3 p);
 			virtual void Draw()   override final;
-			virtual void Update() override final;
+			virtual void Update(glm::vec3 ins) override final;
 
 		};
 

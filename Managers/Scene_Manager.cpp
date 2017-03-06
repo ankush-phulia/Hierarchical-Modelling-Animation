@@ -47,6 +47,7 @@ Scene_Manager::Scene_Manager(){
 
 	glEnable(GL_DEPTH_TEST);
 	models_manager = new Models_Manager();
+	insect = glm::vec3(0.0,0.0,-50.0f);
 
 
 }
@@ -56,7 +57,7 @@ Scene_Manager::~Scene_Manager(){
 }
 
 void Scene_Manager::NotifyBeginFrame(){
-	models_manager->Update();
+	models_manager->Update(insect);
 }
 
 void Scene_Manager::NotifyDisplayFrame(){

@@ -14,6 +14,7 @@ namespace Managers{
 
 	private:
 		Managers::Models_Manager* models_manager;
+		glm::vec3 insect;
 	};
 
 }

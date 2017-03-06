@@ -45,9 +45,27 @@ void renderBitmapString(float x, float y, void *font,char *string)
 
 Scene_Manager::Scene_Manager(){
 
-	glEnable(GL_DEPTH_TEST);
 	models_manager = new Models_Manager();
 	insect = glm::vec3(0.0,0.0,-100.0f);
+	//GLfloat mat_specular[] = { 1.0, 1000.0, 1000.0, 1.0 };
+   	//GLfloat mat_shininess[] = { 50.0 };
+   	GLfloat light_position[] = { 1.0, 1, 1.0, 0.0 };
+   	glShadeModel (GL_SMOOTH);
+
+   	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   	//glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   	glEnable(GL_LIGHTING);
+   	glEnable(GL_LIGHT0);
+   	glEnable(GL_DEPTH_TEST);
 
 
 }
@@ -58,6 +76,25 @@ Scene_Manager::~Scene_Manager(){
 
 void Scene_Manager::NotifyBeginFrame(){
 	models_manager->Update(insect);
+}
+
+void ground()
+{
+	glPushMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	GLUquadricObj *g;
+	g=gluNewQuadric();
+	gluQuadricDrawStyle(g, GLU_FILL);
+	gluQuadricNormals(g, GLU_SMOOTH);
+	//gluQuadricTexture(g, GL_TRUE);
+	glColor3f(0.0,1.0,0.0);
+	glTranslatef(0,-3.0f,100.0);
+	glRotatef(90.0, 1.0, 0.0, 0.0);
+	//glRotatef(-60.0, 0.0, 1.0, 0.0);
+	//glRotatef(180.0, 0.0, 0.0, 1.0);
+	gluCylinder(g,1000.0f,1000.0f,100000.0f,10,10);	//(*obj, base, top, height, slices, stacks)
+	glPopMatrix();
 }
 
 void Scene_Manager::NotifyDisplayFrame(){
@@ -76,7 +113,10 @@ void Scene_Manager::NotifyDisplayFrame(){
 	gluLookAt(0.0f,0.0f, 25.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,1.0f,0.0f);
+
+	
 	glPushMatrix();
+	ground();
 	models_manager->Draw();
 	glPopMatrix();
 	setOrthographicProjection();
@@ -84,7 +124,7 @@ void Scene_Manager::NotifyDisplayFrame(){
 	glLoadIdentity();
 	glColor3f(0.0f,1.0f,1.0f);
 	renderBitmapString(30,15,(void *)font,"3D Frog Simulation");
-	renderBitmapString(30,55,(void *)font,"");
+	renderBitmapString(30,55,(void *)font,"Use w,s,a,d to direct the FROG");
 	glPopMatrix();
 	resetPerspectiveProjection();
 

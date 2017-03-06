@@ -10,7 +10,7 @@ int main(int argc, char **argv){
 
 	Init::Init_GLUT::Init(window, frameBufferInfo,argc,argv);
 
-	IListener* scene = new Managers::Scene_Manager();
+	Managers::Scene_Manager* scene = new Managers::Scene_Manager();
 	Init::Init_GLUT::SetListener(scene);
 
 	Init::Init_GLUT::Run();

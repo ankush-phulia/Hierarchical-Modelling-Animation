@@ -30,8 +30,8 @@ using namespace Models;
 #define JUMPING 1
 #define LANDING 2
 
-#define VEL 15      // Velocity = sqrt(2) x vel
-#define DT 10000
+#define VEL 20      // Velocity = sqrt(2) x vel
+#define DT 1000
 #define PI 3.14159265
 
 
@@ -179,7 +179,8 @@ void right_lower_leg()
 }
 
 void Frog::Draw()
-{ 	glEnable ( GL_TEXTURE_2D );
+{ 	glPushMatrix();
+	glEnable ( GL_TEXTURE_2D );
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glTranslatef(Position.x,Position.y,Position.z);
@@ -291,6 +292,7 @@ void Frog::Draw()
 	//glFlush();
 	//glutSwapBuffers();
    glDisable(GL_TEXTURE_2D);
+   glPopMatrix();
 }
 
 
@@ -392,7 +394,7 @@ void Frog::Update(glm::vec3 ins){
 		Position.x = nPosition.x + dist*Direction.x;
 		Position.y = nPosition.y + ht;
 		Position.z = nPosition.z + dist*Direction.z;
-		std::cout << Position.z << "  " << Position.y << " 12\n";
+		//std::cout << Position.z << "  " << Position.y << " 12\n";
 		for(int i=1; i<10; i++)
 		{
 			theta[i] += (out[i]-in[i])*2/DT;
@@ -401,6 +403,10 @@ void Frog::Update(glm::vec3 ins){
 		if(abs((Position.y-(velocity*velocity)/20)*100)==0)
 		{	mode = LANDING;
 			ang = 0;
+			for(int i=1; i<10; i++)
+			{
+				theta[i] = out[i];
+			}
 		}
 	}
 	else if(mode == LANDING)
@@ -415,7 +421,7 @@ void Frog::Update(glm::vec3 ins){
 		Position.x = nPosition.x + dist*Direction.x;
 		Position.y = nPosition.y + ht;
 		Position.z = nPosition.z + dist*Direction.z;
-		std::cout << Position.z << "  " << Position.y << " 12\n";
+		//std::cout << Position.z << "  " << Position.y << " 12\n";
 		for(int i=1; i<10; i++)
 		{
 			theta[i] += (in[i]-out[i])*2/DT;
@@ -423,6 +429,10 @@ void Frog::Update(glm::vec3 ins){
 		if(Position.y<=0.0)
 		{	Position.y = 0.0;
 			mode = STILL;
+			for(int i=1; i<10; i++)
+			{
+				theta[i] = in[i];
+			}
 		}	
 	}
 	else if(!Equals(ins,Position))

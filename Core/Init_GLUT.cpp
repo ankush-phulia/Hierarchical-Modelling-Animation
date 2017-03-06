@@ -21,6 +21,7 @@ void Init_GLUT::Init(const Core::WindowInfo&  windowInfo, const Core::Framebuffe
 		glutCloseFunc(CloseCallback);
 		glutDisplayFunc(DisplayCallback);
 		glutReshapeFunc(ReshapeCallback);
+		glutKeyboardFunc(&KeyboardCallback);
 
 		Core::Init::Init_GLEW::Init();
 
@@ -75,6 +76,26 @@ void Init_GLUT::ExitFullscreen(){
 	glutLeaveFullScreen();
 }
 
+void Init_GLUT::KeyboardCallback(unsigned char key, int x, int y)
+{
+	switch (key) {
+		case 'a' : listener->insect.x-=10.0;
+							std::cout <<"a\n";
+							break;
+		case 'd' : listener->insect.x+=10.0;
+							std::cout <<"d\n";
+							break;
+		case 'w' : listener->insect.z-=10.0;
+							std::cout <<"w\n";
+							break;
+		case 's' : listener->insect.z+=10.0;
+							std::cout <<"s\n";
+							break;
+		case 27 : exit(0);
+	}
+
+}
+
 void Init_GLUT::PrintOpenGLInfo(const Core::WindowInfo& windowInfo){
 
 	const unsigned char* renderer = glGetString(GL_RENDERER);
@@ -95,6 +116,6 @@ void Init_GLUT::PrintOpenGLInfo(const Core::WindowInfo& windowInfo){
 	std::cout << "*****************************************************************" << std::endl;
 }
 
-void Init_GLUT::SetListener(Core::IListener*& iListener){
+void Init_GLUT::SetListener(Core::IListener* const& iListener){
 	listener = iListener;
 }

@@ -290,7 +290,7 @@ void Frog::Draw(){
 
 
 Frog::Frog(){
-	
+
 }
 
 Frog::~Frog(){
@@ -374,7 +374,7 @@ bool Equals(glm::vec3 &ins,glm::vec3 &Position)
 
 
 
-void Frog::Update(glm::vec3 ins){
+void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameModelList){
 	if(mode == JUMPING)	{	
 		if(Equals(ins,Position))
 		{	mode = STILL;

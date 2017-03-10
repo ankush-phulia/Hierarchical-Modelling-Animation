@@ -40,7 +40,7 @@ namespace Rendering {
 			int mode;
 			void Create(glm::vec3 p);
 			virtual void Draw()   override final;
-			virtual void Update(glm::vec3 ins) override final;
+			virtual void Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameModelList) override final;
 
 		};
 

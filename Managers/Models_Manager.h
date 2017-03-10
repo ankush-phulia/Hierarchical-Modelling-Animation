@@ -11,11 +11,11 @@ namespace Managers {
 		Models_Manager();
 		~Models_Manager();
 		void Draw();
-		void Update(glm::vec3 ins);
+		void Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameModelList);
 		void DeleteModel(const std::string& gameModelName);
 		const IGameObject& GetModel(const std::string& gameModelName) const;
 
 	private:
-		std::map<std::string, IGameObject*> gameModelList;
+		std::map<std::string, IGameObject*> gameModelList,passinggameModelList;
 	};
 }

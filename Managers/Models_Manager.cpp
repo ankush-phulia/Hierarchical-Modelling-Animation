@@ -8,6 +8,7 @@ Models_Manager::Models_Manager(){
 	Models::Frog* frog = new Models::Frog();
 	frog->Create(glm::vec3(0.0f,0.0f,0.0f));
 	gameModelList["frog"] = frog;
+	passinggameModelList["frog"] = frog;
 
 	//Models::Frog* frog2 = new Models::Frog();
 	//frog2->Create(glm::vec3(0.0f,0.0f,10.0f));
@@ -33,8 +34,9 @@ const IGameObject& Models_Manager::GetModel(const std::string& gameModelName) co
 
 void Models_Manager::Update(glm::vec3 ins){
 	for (auto model: gameModelList)
-	{
-		model.second->Update(ins);
+	{	passinggameModelList.erase(model.first);
+		model.second->Update(ins,passinggameModelList);
+		passinggameModelList[model.first] = model.second;
 	}
 }
 

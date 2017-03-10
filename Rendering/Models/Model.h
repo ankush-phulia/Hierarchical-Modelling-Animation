@@ -12,7 +12,7 @@ namespace Rendering{
 			virtual ~Model();
 
 			virtual void Draw()             override;
-			virtual void Update(glm::vec3 ins)           override;
+			virtual void Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameModelList)           override;
 			virtual void Destroy()          override;
 
 		};

@@ -5,15 +5,13 @@ using namespace Rendering;
 
 Models_Manager::Models_Manager(){
 
-	/*Models::Triangle* triangle = new Models::Triangle();
-	triangle->SetProgram(Shader_Manager::GetShader("colorShader"));
-	triangle->Create();
-	gameModelList["triangle"] = triangle;*/
-
 	Models::Frog* frog = new Models::Frog();
-	//frog->SetProgram(Shader_Manager::GetShader("colorShader"));
 	frog->Create(glm::vec3(0.0f,0.0f,0.0f));
 	gameModelList["frog"] = frog;
+
+	//Models::Frog* frog2 = new Models::Frog();
+	//frog2->Create(glm::vec3(0.0f,0.0f,10.0f));
+	//gameModelList["frog2"] = frog2;
 }
 
 Models_Manager::~Models_Manager(){

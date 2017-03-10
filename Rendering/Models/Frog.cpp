@@ -30,19 +30,12 @@ using namespace Models;
 #define JUMPING 1
 #define LANDING 2
 
-#define VEL 20      // Velocity = sqrt(2) x vel
+#define VEL 20     // Velocity = sqrt(2) x vel
 #define DT 1000
 #define PI 3.14159265
 
 
-static GLfloat theta[10] = {0.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0};
-static GLfloat in[10] = {90.0,75.0,-60.0,0.0,50.0,30.0,-100.0,20.0,30.0,150.0}; //start-end
-static GLfloat out[10] = {0.0,30.0,-30.0,0.0,60.0,30.0,-20.0,160.0,0.0,10.0};// mid-air
-//{0.0 in z direction 90.0 in x direction}
-GLUquadricObj *t, *gl, *h, *ua, *la, *ll, *ul;
-
-
-void torso()
+void Frog::torso()
 {
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
@@ -50,7 +43,7 @@ void torso()
 	glPopMatrix();
 }
 
-void head()
+void Frog::head()
 {
 	glPushMatrix();
 	glTranslatef(0.0, 0.5*HEAD_HEIGHT,0.0);
@@ -59,7 +52,7 @@ void head()
 	glPopMatrix();
 }
 
-void glass_bot()
+void Frog::glass_bot()
 {
 	glPushMatrix();
 	glTranslatef(0.0, 0.5*HEAD_HEIGHT,0.075);
@@ -68,7 +61,7 @@ void glass_bot()
 	glPopMatrix();
 }
 
-void shoulder_joints()
+void Frog::shoulder_joints()
 {
 	glPushMatrix();
 	glScalef(SHOULDER_RADIUS, SHOULDER_RADIUS, SHOULDER_RADIUS);
@@ -76,7 +69,7 @@ void shoulder_joints()
 	glPopMatrix();
 }
 
-void elbow_joints()
+void Frog::elbow_joints()
 {
 	glPushMatrix();
    	glScalef(SHOULDER_RADIUS/1.2, SHOULDER_RADIUS/1.2, SHOULDER_RADIUS/1.2);
@@ -84,7 +77,7 @@ void elbow_joints()
 	glPopMatrix();
 }
 
-void palms()
+void Frog::palms()
 {
 	glPushMatrix();
    	glScalef(SHOULDER_RADIUS/1.3, SHOULDER_RADIUS/1.3, SHOULDER_RADIUS/1.3);
@@ -92,7 +85,7 @@ void palms()
 	glPopMatrix();
 }
 
-void leg_joints()
+void Frog::leg_joints()
 {
 	glPushMatrix();
    	glScalef(JOINT_RADIUS, JOINT_RADIUS, JOINT_RADIUS);
@@ -100,7 +93,7 @@ void leg_joints()
 	glPopMatrix();
 }
 
-void knee_joints()
+void Frog::knee_joints()
 {
 	glPushMatrix();
    	glScalef(JOINT_RADIUS, JOINT_RADIUS, JOINT_RADIUS);
@@ -108,7 +101,7 @@ void knee_joints()
 	glPopMatrix();
 }
 
-void torso_disk()
+void Frog::torso_disk()
 {
 	glPushMatrix();
    	glScalef(TORSO_RADIUS,0.1,TORSO_RADIUS);
@@ -116,35 +109,35 @@ void torso_disk()
 	glPopMatrix();
 }
 
-void left_upper_arm()
+void Frog::left_upper_arm()
 {
 	glPushMatrix();
 	gluCylinder(ua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
-void left_lower_arm()
+void Frog::left_lower_arm()
 {
 	glPushMatrix();
 	gluCylinder(la,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
-void right_upper_arm()
+void Frog::right_upper_arm()
 {
 	glPushMatrix();
 	gluCylinder(ua,UPPER_ARM_RADIUS*1.2, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
-void right_lower_arm()
+void Frog::right_lower_arm()
 {
 	glPushMatrix();
 	gluCylinder(la,LOWER_ARM_RADIUS*1.1, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT,10,10);
 	glPopMatrix();
 }
 
-void left_upper_leg()
+void Frog::left_upper_leg()
 {
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
@@ -152,7 +145,7 @@ void left_upper_leg()
 	glPopMatrix();
 }
 
-void left_lower_leg()
+void Frog::left_lower_leg()
 {
 	glPushMatrix();
 	glTranslatef(0.0,-0.25,0.0);
@@ -161,7 +154,7 @@ void left_lower_leg()
 	glPopMatrix();
 }
 
-void right_upper_leg()
+void Frog::right_upper_leg()
 {
 	glPushMatrix();
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
@@ -169,7 +162,7 @@ void right_upper_leg()
 	glPopMatrix();
 }
 
-void right_lower_leg()
+void Frog::right_lower_leg()
 {
 	glPushMatrix();
 	glTranslatef(0.0,-0.25,0.0);
@@ -297,7 +290,7 @@ void Frog::Draw(){
 
 
 Frog::Frog(){
-
+	
 }
 
 Frog::~Frog(){

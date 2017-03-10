@@ -1,4 +1,5 @@
 #include "Scene_Manager.h"
+#include <SOIL/SOIL.h>
 using namespace Managers;
 
 int font=(int)GLUT_BITMAP_8_BY_13;
@@ -42,18 +43,24 @@ void renderBitmapString(float x, float y, void *font,char *string)
 	}
 }
 
+void Lighting(){
 
-Scene_Manager::Scene_Manager(){
-
-	models_manager = new Models_Manager();
-	insect = glm::vec3(0.0,0.0,-100.0f);
-	//GLfloat mat_specular[] = { 1.0, 1000.0, 1000.0, 1.0 };
-   	//GLfloat mat_shininess[] = { 50.0 };
-   	GLfloat light_position[] = { 1.0, 1, 1.0, 0.0 };
+	GLfloat mat_ambient[] = { 0.5, 0.5, 0.5, 0.5 };
+	GLfloat mat_diffuse[] = { 0.7, 0.7, 0.7, 0.7 };
+	GLfloat mat_specular[] = { 0.8, 0.8, 0.8, 0.8 };
+   	GLfloat mat_shininess[] = { 50.0 };
    	glShadeModel (GL_SMOOTH);
 
-   	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   	//glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+   	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+   	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+	glMaterialfv(GL_BACK, GL_AMBIENT, mat_ambient);
+   	glMaterialfv(GL_BACK, GL_DIFFUSE, mat_diffuse);
+   	glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
+   	glMaterialfv(GL_BACK, GL_SHININESS, mat_shininess);
+
+   	GLfloat light_position[] = { 1.0, 1.0, 1.0, 1.0 };
    	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -65,6 +72,14 @@ Scene_Manager::Scene_Manager(){
 
    	glEnable(GL_LIGHTING);
    	glEnable(GL_LIGHT0);
+}
+
+
+Scene_Manager::Scene_Manager(){
+
+	models_manager = new Models_Manager();
+	insect = glm::vec3(0.0,0.0,-100.0f);
+	Lighting();
    	glEnable(GL_DEPTH_TEST);
 
 
@@ -78,22 +93,50 @@ void Scene_Manager::NotifyBeginFrame(){
 	models_manager->Update(insect);
 }
 
-void ground()
+void groundandinsect(glm::vec3 insect)
 {
 	glPushMatrix();
+	// glEnable ( GL_TEXTURE_2D );
 	//glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	GLUquadricObj *g;
+
+	// GLuint texture;
+	// int width, height, channels;
+	// unsigned char *ht_map = SOIL_load_image("bg.jpg",&width, &height, &channels,SOIL_LOAD_RGB); 
+	// if(ht_map == NULL) 
+	// 	std::cout << "NULL "<<SOIL_last_result()<<" \n";
+	// glGenTextures(1, &texture);                            
+ //    glBindTexture(GL_TEXTURE_2D, texture);
+ //    glTexImage2D(GL_TEXTURE_2D, 0, 3, width,height, 0, GL_RGB, GL_UNSIGNED_BYTE, ht_map);
+ //    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	// glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	// SOIL_free_image_data( ht_map );
+
 	g=gluNewQuadric();
 	gluQuadricDrawStyle(g, GLU_FILL);
 	gluQuadricNormals(g, GLU_SMOOTH);
 	//gluQuadricTexture(g, GL_TRUE);
 	glColor3f(0.0,1.0,0.0);
-	glTranslatef(0,-3.0f,100.0);
+	glTranslatef(0,-2.0f,100.0);
 	glRotatef(90.0, 1.0, 0.0, 0.0);
 	//glRotatef(-60.0, 0.0, 1.0, 0.0);
 	//glRotatef(180.0, 0.0, 0.0, 1.0);
 	gluCylinder(g,1000.0f,1000.0f,100000.0f,10,10);	//(*obj, base, top, height, slices, stacks)
+	glPopMatrix();
+
+	glPushMatrix();
+	glEnable ( GL_TEXTURE_2D );
+	//glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	GLUquadricObj *i;
+	i=gluNewQuadric();
+	gluQuadricDrawStyle(i, GLU_FILL);
+	gluQuadricNormals(i, GLU_SMOOTH);
+	//gluQuadricTexture(g, GL_TRUE);
+	glColor3f(0.0,0.0,0.0);
+	glTranslatef(insect.x,-1.0f,insect.z);
+	gluSphere(i,0.25,10,10);
 	glPopMatrix();
 }
 
@@ -113,10 +156,9 @@ void Scene_Manager::NotifyDisplayFrame(){
 	gluLookAt(0.0f,0.0f, 25.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,1.0f,0.0f);
-
 	
 	glPushMatrix();
-	ground();
+	groundandinsect(insect);
 	models_manager->Draw();
 	glPopMatrix();
 	setOrthographicProjection();

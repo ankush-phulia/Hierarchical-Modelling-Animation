@@ -76,21 +76,24 @@ void Init_GLUT::ExitFullscreen(){
 	glutLeaveFullScreen();
 }
 
-void Init_GLUT::KeyboardCallback(unsigned char key, int x, int y)
-{
+void Init_GLUT::KeyboardCallback(unsigned char key, int x, int y){
 	switch (key) {
-		case 'a' : listener->insect.x-=10.0;
-							std::cout <<"a\n";
-							break;
-		case 'd' : listener->insect.x+=10.0;
-							std::cout <<"d\n";
-							break;
-		case 'w' : listener->insect.z-=10.0;
-							std::cout <<"w\n";
-							break;
-		case 's' : listener->insect.z+=10.0;
-							std::cout <<"s\n";
-							break;
+		case 'a' : 
+			listener->insect.x-=10.0;
+			std::cout << listener->insect.x<<","<<listener->insect.z << "\n";	
+			break;
+		case 'd' : 
+			listener->insect.x+=10.0;
+			std::cout << listener->insect.x<<","<<listener->insect.z << "\n";
+			break;
+		case 'w' : 
+			listener->insect.z-=10.0;
+			std::cout << listener->insect.x<<","<<listener->insect.z << "\n";	
+			break;
+		case 's' : 
+			listener->insect.z+=10.0;
+			std::cout << listener->insect.x<<","<<listener->insect.z << "\n";
+			break;
 		case 27 : exit(0);
 	}
 

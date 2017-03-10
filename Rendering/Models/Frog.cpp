@@ -178,8 +178,8 @@ void right_lower_leg()
 	glPopMatrix();
 }
 
-void Frog::Draw()
-{ 	glPushMatrix();
+void Frog::Draw(){ 	
+	glPushMatrix();
 	glEnable ( GL_TEXTURE_2D );
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -291,8 +291,8 @@ void Frog::Draw()
 
 	//glFlush();
 	//glutSwapBuffers();
-   glDisable(GL_TEXTURE_2D);
-   glPopMatrix();
+   	glDisable(GL_TEXTURE_2D);
+   	glPopMatrix();
 }
 
 
@@ -382,8 +382,8 @@ bool Equals(glm::vec3 &ins,glm::vec3 &Position)
 
 
 void Frog::Update(glm::vec3 ins){
-	if(mode == JUMPING)
-	{	if(Equals(ins,Position))
+	if(mode == JUMPING)	{	
+		if(Equals(ins,Position))
 		{	mode = STILL;
 			Position.y = 0.0;
 			return;
@@ -400,8 +400,8 @@ void Frog::Update(glm::vec3 ins){
 			theta[i] += (out[i]-in[i])*2/DT;
 		}
 		theta[0] += ang*2/DT;
-		if(abs((Position.y-(velocity*velocity)/20)*100)==0)
-		{	mode = LANDING;
+		if(abs((Position.y-(velocity*velocity)/20)*100)==0)		{	
+			mode = LANDING;
 			ang = 0;
 			for(int i=1; i<10; i++)
 			{
@@ -409,10 +409,14 @@ void Frog::Update(glm::vec3 ins){
 			}
 		}
 	}
-	else if(mode == LANDING)
-	{	if(Equals(ins,Position))
+	else if(mode == LANDING)	{	
+		if(Equals(ins,Position))
 		{	mode = STILL;
 			Position.y = 0.0;
+			for(int i=1; i<10; i++)
+			{
+				theta[i] = in[i];
+			}
 			return;
 		}
 		tim += velocity/(5*DT);
@@ -435,18 +439,26 @@ void Frog::Update(glm::vec3 ins){
 			}
 		}	
 	}
-	else if(!Equals(ins,Position))
-	{	mode = JUMPING;
+	else if(!Equals(ins,Position))	{
+		mode = JUMPING;
 		Direction = ins - Position;
 		float d = glm::length(Direction); 
 		Direction = glm::normalize(Direction);
-		if(5*d > VEL*VEL)
+		if(5*d > VEL*VEL){
 			velocity = VEL;
-		else
+		}
+		else{
 			velocity = sqrt(5*d);
+		}
 		nPosition = Position;
 		tim = 0.0;
-		ang = acos(Direction.z)*180/PI - theta[0];
+		if (Direction.x > 0){
+			ang = acos(Direction.z)*180/PI - theta[0];
+		}
+		else{
+			ang = -acos(Direction.z)*180/PI - theta[0];
+		}
+		
 	}
 }
 

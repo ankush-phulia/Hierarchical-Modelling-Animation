@@ -147,8 +147,8 @@ void Scene_Manager::NotifyDisplayFrame(){
 	glLoadIdentity();
 
 	// Set the viewport to be the entire window
-	 glViewport(0, 0, 640, 360);
-	float ratio = 1.0f * 640.0f / 360.0f;
+	 glViewport(0, 0, window.width, window.height);
+	float ratio = 1.0f * window.width / window.height;
 	// Set the clipping volume
 	gluPerspective(45,ratio,0.1,1000);
 	glMatrixMode(GL_MODELVIEW);

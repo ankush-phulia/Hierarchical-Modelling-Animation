@@ -5,6 +5,8 @@
 using namespace Rendering;
 using namespace Models;
 
+#define FROG_RADIUS 10.6
+
 #define TORSO_HEIGHT 8.0
 #define TORSO_RADIUS 1.3
 
@@ -179,6 +181,7 @@ void Frog::Draw(){
 	glTranslatef(Position.x,Position.y,Position.z);
 
 	glTranslatef(0,-3.0,0);
+
 	glRotatef(theta[0], 0.0, 1.0, 0.0);
 	glRotatef(theta[1], 1.0, 0.0, 0.0);
 	torso();
@@ -302,6 +305,7 @@ void Frog::Create(glm::vec3 p){
 	glEnable ( GL_TEXTURE_2D );
                                       // Create Storage Space For The Texture
      Position = p;
+	 Position.y = 0;
 	 Direction = glm::vec3(0.0,0.0,0.0);
 	 mode = STILL;
 	/*texture = SOIL_load_OGL_texture
@@ -381,6 +385,7 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 			Position.y = 0.0;
 			return;
 		}
+
 		tim += velocity/(5*DT);
 		float dist = velocity*tim;
 		float ht = velocity*tim - 5*tim*tim;
@@ -388,11 +393,13 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 		Position.y = nPosition.y + ht;
 		Position.z = nPosition.z + dist*Direction.z;
 		//std::cout << Position.z << "  " << Position.y << " 12\n";
+
 		for(int i=1; i<10; i++)
 		{
 			theta[i] += (out[i]-in[i])*2/DT;
 		}
 		theta[0] += ang*2/DT;
+
 		if(abs((Position.y-(velocity*velocity)/20)*100)==0)		{	
 			mode = LANDING;
 			ang = 0;
@@ -412,6 +419,7 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 			}
 			return;
 		}
+
 		tim += velocity/(5*DT);
 		float dist = velocity*tim;
 		float ht = velocity*tim - 5*tim*tim;
@@ -419,10 +427,12 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 		Position.y = nPosition.y + ht;
 		Position.z = nPosition.z + dist*Direction.z;
 		//std::cout << Position.z << "  " << Position.y << " 12\n";
+
 		for(int i=1; i<10; i++)
 		{
 			theta[i] += (in[i]-out[i])*2/DT;
 		}
+
 		if(Position.y<=0.0)
 		{	Position.y = 0.0;
 			mode = STILL;
@@ -433,10 +443,43 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 		}	
 	}
 	else if(!Equals(ins,Position))	{
-		mode = JUMPING;
+		ins.y = 0;
+		Position.y = 0;
 		Direction = ins - Position;
 		float d = glm::length(Direction); 
 		Direction = glm::normalize(Direction);
+		Direction.x *= 2.2*FROG_RADIUS;
+		Direction.z *= 2.2*FROG_RADIUS;
+		for (auto model: passinggameModelList)	
+		{	void *p = (void *) model.second;
+			Frog *frog = (Frog *)p;
+			glm::vec3 g = Position - frog->Position;
+			g.y = 0;
+			if(glm::length(g)<2*FROG_RADIUS)
+			{	
+				Position = Position - Direction;
+				Position.y = 0;
+				d = glm::length(ins-Position);
+			}
+			g = ins - frog->Position;
+			g.y = 0;
+			if(((int)(glm::length(g)*1000))==0)
+			{	ins = frog->Position - Direction;	
+				ins.y = 0;
+				d = glm::length(ins-Position);
+			}
+			else if(glm::length(g)<=d)
+			{	ins = ins - Direction;	
+				d = glm::length(ins-Position);			
+			}
+
+			if(((int)(d*10))<=0)
+				return;
+		}
+		if(((int)(d*10))<=0)
+			return;
+		Direction = glm::normalize(Direction);
+
 		if(5*d > VEL*VEL){
 			velocity = VEL;
 		}
@@ -451,7 +494,7 @@ void Frog::Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameM
 		else{
 			ang = -acos(Direction.z)*180/PI - theta[0];
 		}
-		
+		mode = JUMPING;
 	}
 }
 

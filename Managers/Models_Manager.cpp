@@ -10,9 +10,13 @@ Models_Manager::Models_Manager(){
 	gameModelList["frog"] = frog;
 	passinggameModelList["frog"] = frog;
 
-	//Models::Frog* frog2 = new Models::Frog();
-	//frog2->Create(glm::vec3(0.0f,0.0f,10.0f));
-	//gameModelList["frog2"] = frog2;
+	Models::Frog* frog2 = new Models::Frog();
+	frog2->Create(glm::vec3(0.0f,0.0f,20.0f));
+	gameModelList["frog2"] = frog2;
+
+	Models::Frog* frog3 = new Models::Frog();
+	frog3->Create(glm::vec3(20.0f,0.0f,0.0f));
+	gameModelList["frog3"] = frog3;
 }
 
 Models_Manager::~Models_Manager(){

@@ -1,20 +1,20 @@
 #pragma once
 #include <vector>
 #include "../IGameObject.h"
-namespace Rendering{
+namespace Rendering {
 
-	namespace Models{
+namespace Models {
 
-		class Model :virtual public IGameObject	{
+class Model : virtual public IGameObject {
+   public:
+    Model();
+    virtual ~Model();
 
-		public:
-			Model();
-			virtual ~Model();
-
-			virtual void Draw()             override;
-			virtual void Update(glm::vec3 ins,std::map<std::string, IGameObject*> passinggameModelList)           override;
-			virtual void Destroy()          override;
-
-		};
-	}
-}
+    virtual void Draw() override;
+    virtual void Update(
+        glm::vec3 ins,
+        std::map<std::string, IGameObject*> passinggameModelList) override;
+    virtual void Destroy() override;
+};
+}  // namespace Models
+}  // namespace Rendering
